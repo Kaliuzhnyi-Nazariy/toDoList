@@ -12,7 +12,7 @@ const { User } = require("../schemas/user");
 const { HttpError, ctrlWrapper, sendEmail } = require("../helpers");
 
 const registration = async (req, res) => {
-  const { email, password } = req.body;
+  const { nickname, email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "Email is already registered!");
@@ -35,7 +35,7 @@ const registration = async (req, res) => {
 
   await sendEmail(verifyEmail);
 
-  res.status(201).json({ email: newUser.email });
+  res.status(201).json({ email: newUser.email, nickname: newUser.nickname });
 };
 
 const verifyEmail = async (req, res) => {
